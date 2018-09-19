@@ -7,7 +7,7 @@ We use [circle-ci](https://circleci.com/gh/samtools/hts-specs) to build the pdfs
 Files:
 - scripts/makediff.sh  -- runs latexdiff on the given file producing a pdf in the diffs/ directory
 - pdf_comment.js       -- looks for pdfs in the diffs/ directory and if it finds any, posts a comment in the github PR with links to the appropriate files
-- Dockerfile           -- a description of the container used for running the latex and the javascript. The container itself is htsspecs/circle-ci-image:0.3 
+- Dockerfile           -- a description of the container used for running the latex and the javascript. It also has an updated version of latexdiff (githash 3e56ad7cb8e7, not an official release.) The container itself is currently htsspecs/circle-ci-image:0.4 
 - .circleci/config.yml -- the configuration file that is run by circle-ci
 - .circleci/Readme.md  -- this document
 

@@ -42,7 +42,7 @@ new/VCFv4.1.ver new/VCFv4.2.ver new/VCFv4.3.ver: img/all_orientations-400x296.pn
 
 new/%.ver: %.tex
 	@test -d new || mkdir new
-	scripts/genversion.sh $< > $@
+	scripts/genversion.sh $^ > $@
 
 mostlyclean:
 	-rm -f new/*.aux new/*.log new/*.out new/*.toc new/*.ver
