@@ -447,7 +447,7 @@ See also Section~\ref{sv-format-keys} for a list of genotype keys reserved for s
   For diploid calls examples could be $0/1$, $1\mid0$, or $1/2$, etc.
   Haploid calls, e.g.\ on Y, male non-pseudoautosomal X, or mitochondrion, are indicated by having only one allele value.
   A triploid call might look like $0/0/1$.
-  Due to underspecifying in older versions and for compatibility with existing tools, if an allele value is 0, it indicates that this record reports no change from the reference allele, but other records can still report a change that overlaps the allele.
+  Due to underspecifying in older versions and for compatibility with existing tools, if an allele value is 0, it indicates that this record reports no change from the reference allele to the alternate alleles, but other records can still report other overlapping changes (see section \ref{haplotype-representation} for more details about resolving this apparent contradiction).
   If a call cannot be made for a sample at a given locus, `.' must be specified for each missing allele in the GT field (for example `$./.$' for a diploid genotype and `.' for haploid genotype).
   The meanings of the separators are as follows (see the PS field below for more details on incorporating phasing information into the genotypes):
 	\begin{itemize}
@@ -527,6 +527,7 @@ See also Section~\ref{sv-format-keys} for a list of genotype keys reserved for s
 
 
 \section{Understanding the VCF format and the haplotype representation}
+\label{haplotype-representation}
 VCF records use a single general system for representing genetic variation data composed of:
 \begin{itemize}
   \item Allele: representing single genetic haplotypes (A, T, ATC).
@@ -535,8 +536,10 @@ VCF records use a single general system for representing genetic variation data 
 \end{itemize}
 VCF records use a simple haplotype representation for REF and ALT alleles to describe variant haplotypes at a locus.
 ALT haplotypes are constructed from the REF haplotype by taking the REF allele bases at the POS in the reference genotype and replacing them with the ALT bases.
-However, a complete haplotype reconstruction requires examining other records if a genotype is REF (0). If another record has a contradicting non-REF genotype, the non-REF genotype has more priority and the REF genotype should be ignored.
 In essence, the VCF record specifies a-REF-t and the alternative haplotypes are a-ALT-t for each alternative allele.
+
+However, a complete haplotype reconstruction requires examining other records if a genotype is REF (0). The reason is that a REF genotype does not mean that the sample has the REF allele: a REF genotype means that the sample does not have any of the ALT alleles reported at this record. It is allowed for two records to state REF and non-REF genotypes over an overlapping region for the same sample. In that case, the non-REF genotype has more priority and the REF genotype should be ignored.
+
 
 \subsection{VCF tag naming conventions}
 Several tag names follow conventions indicating how their values are represented numerically:
